@@ -1,0 +1,112 @@
+<html>
+<head>
+  <title>MQ Light Lab</title>
+  <link rel="stylesheet" href="sample.css" />
+  <script src="socket.io/socket.io.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+  <script src="http://www.chartjs.org/assets/Chart.js"></script>
+</head>
+<body>
+
+  <div id="header">
+   <div id="header-left">
+      <h1>MQ Light</h1>
+      <div id="pageTitle">Demo Lab</div>
+    </div>
+  </div>
+
+  <div id="main-content">
+    <div id="main-container" class="main">
+      <div id="leftColumn" class="container">
+        <div id="tweet-container" class="inner">
+					
+          <h1>Tweets Received</h1>
+						
+          <div class="stats-container">
+            <div class="stat">
+              <div class="statLabel">Total tweets received:</div>
+              <div id="totalTweets" class="statValue">0</div>
+            </div>
+            <div class="stat">
+              <div class="statLabel">Time between last 2 tweets:</div>
+              <div id="timeTweets" class="statValue">0 ms</div>
+            </div>
+          </div>
+						
+          <div class="tweets"></div>
+						
+        </div>
+      </div>
+				
+      <div id="rightColumn" class="container">
+        <div id="worker-container" class="inner">
+					
+          <h1>Results of Analytics</h1>
+						
+          <div class="stats-container">
+            <div class="stat">
+              <div class="statLabel">Total graphs calculated:</div>
+              <div id="totalGraphs" class="statValue">0</div>
+            </div>
+            <div class="stat">
+              <div class="statLabel">Time between last 2 graphs:</div>
+              <div id="timeGraphs" class="statValue">0 ms</div>
+            </div>
+          </div>
+	
+          <canvas id="chart-canvas"width="600" height="400"></canvas>
+						
+          <div id="graph-desc">Graph: Count of how often letters are used in each Tweet</div>
+						
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+      var tweetCount = 0;
+      var graphCount = 0;
+      var lastTweetTime = new Date();
+      var lastGraphTime = new Date();
+						
+      socket = io.connect(),
+                        
+      socket.on('tweet', function(data) {
+        $('.tweets').prepend('<div class="tweet">' 
+          + data.text 
+          + '</div><br/>');
+				tweetCount++;
+				document.getElementById("totalTweets").innerHTML = tweetCount;
+								
+        tmpDate = new Date();
+        document.getElementById("timeTweets").innerHTML = (tmpDate.getTime() - lastTweetTime.getTime()) + " ms";
+        lastTweetTime = tmpDate;
+      });
+
+      socket.on('graphdata', function(data) {
+        var options = {
+          barShowStroke : true,
+          animationSteps : 5
+        }
+        
+        var ctx = document.getElementById("chart-canvas").getContext("2d");
+        var charty = new Chart(ctx).Bar(data, options);
+        document.getElementById("chart-canvas").width = 600;
+        document.getElementById("chart-canvas").height = 400;
+								
+        graphCount++;
+        document.getElementById("totalGraphs").innerHTML = graphCount;
+								
+        tmpDate = new Date();
+        document.getElementById("timeGraphs").innerHTML = (tmpDate.getTime() - lastGraphTime.getTime()) + " ms";
+        lastGraphTime = tmpDate;
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>

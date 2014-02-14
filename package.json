@@ -1,0 +1,14 @@
+{
+  "name" : "mqlight-worker-thread",
+  "description" : "Worker thread example for IBM MQ Light",
+  "version" : "1.0.0",
+  "dependencies" : {
+    "ntwitter" : "0.5.0",
+    "socket.io" : "0.9.16",
+    "mqlight" : "https://ibm.biz/node-mqlight"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/ibm-messaging/mqlight-worker-thread.git"
+  }
+}
