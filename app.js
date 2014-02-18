@@ -34,6 +34,8 @@ io.sockets.on('connection', function(socket) {
   twit.stream('statuses/filter', { track: ['data'] }, function(stream) {
     stream.on('data', function(data) {
       if (data && data.text) {
+        // Strip out multibyte characters
+        data.text = data.text.replace(/[\uD800-\uFFFF]/g, ' ');
         socket.emit('tweet',data);
         socket.emit('graphdata',processTweet(data.text));
       }
@@ -52,9 +54,6 @@ io.sockets.on('connection', function(socket) {
         }
       ]
     };
-
-    // Remove emoji
-    tweetText.replace(/([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g, ' ');
     
     // Count the instances of each character
     for (var i = 0; i <= tweetText.length - 1; i++) {
