@@ -48,9 +48,6 @@ function processTweet(tweetText) {
     }
     ]
   };
-
-  // Remove emoji
-  tweetText.replace(/([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g, ' ');
   
   // Count the instances of each character
   for (var i = 0; i <= tweetText.length - 1; i++) {

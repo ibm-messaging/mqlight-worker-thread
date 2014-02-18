@@ -50,6 +50,8 @@ io.sockets.on('connection', function(socket) {
           // Start streaming tweets...
           stream.on('data', function(data) {
             if (data && data.text) {
+              // Strip out multibyte characters
+              data.text = data.text.replace(/[\uD800-\uFFFF]/g, ' ');
               // When we recieve a tweet, emit the tweet to the screen...
               socket.emit('tweet', data);
               // ...and send the tweet text to the worker for processing
