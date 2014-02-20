@@ -3,7 +3,9 @@ MQ Light worker thread sample
 
 This sample demonstrates how MQ Light can make apps more responsive using worker threads. You can see the single threaded version of the app on the [serial branch](https://github.com/ibm-messaging/mqlight-worker-thread/tree/serial). To run the improved version, follow the instructions below.
 
-First, download, extract and run [MQ Light](https://www.ibmdw.net/messaging/mq-light/) in an empty directory. Then, where you have downloaded this sample, run
+Follow the instructions in our [Getting started](https://www.ibmdw.net/messaging/mq-light/getting-started-mq-light/) page to install and start MQ Light. Then download and extract this sample and add Twitter OAuth keys (follow [these instructions](https://dev.twitter.com/docs/auth/tokens-devtwittercom) to get them) to `app.js`.
+
+Finally, run
 
 ```
 npm install
